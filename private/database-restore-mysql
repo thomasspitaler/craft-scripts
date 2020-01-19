@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+#read coniguration
+source $(dirname $0)/../.env
+
+# restore the database from stdin
+mysql -h"${DB_SERVER:-localhost}" --port=${DB_PORT:-3306} -u"$DB_USER" -p"$DB_PASSWORD" "$DB_DATABASE"

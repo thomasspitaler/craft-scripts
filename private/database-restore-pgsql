@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+#read coniguration
+source $(dirname $0)/../.env
+
+# restore the database from stdin
+env PGPASSWORD=$DB_PASSWORD psql -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER $DB_DATABASE

@@ -1,0 +1,8 @@
+#! /usr/bin/env bash
+
+#read coniguration
+source $(dirname $0)/../.env
+
+# dump database to stdout
+pgdump_additional_args="--if-exists --clean"
+env PGPASSWORD=$DB_PASSWORD pg_dump -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER $DB_DATABASE $pgdump_additional_args

@@ -1,0 +1,46 @@
+#! /usr/bin/env bash
+
+# check correct invocation
+if [[ "$#" -gt 1 ]]; then
+	echo "Usage: backup-assets"
+	exit 1
+fi
+
+# check config parameters common to all scripts
+$(dirname $0)/private/check-config
+check_config_status=$?
+if [ $check_config_status -ne 0 ]; then
+    exit $check_config_status
+fi
+
+# include config
+source $(dirname $0)/.env
+
+# check required file system parameters
+if [[ -z "$ASSETS_DIR" ]]; then
+	echo "Missing file system configuration parameter ASSETS_DIR, exiting."
+	exit 2
+fi
+
+# check required storage parameters
+if [[ -z "$STORAGE_TYPE" || -z "$STORAGE_ROOT" ]]; then
+	echo "Missing storage configuration parameters, exiting."
+	echo "The following parameters are required: STORAGE_TYPE, STORAGE_ROOT"
+	exit 3
+fi
+
+site_name="$(basename "$PATH_TO_SITE")"
+
+echo "Backing up assets of craft site $site_name."
+timestamp="$(date +%Y%m%d_%H%I%SMEZ)"
+temp_dir="$(mktemp -d)"
+
+echo "Creating archive of assets..."
+archive="${site_name}_${timestamp}.tar.gz"
+tar -cz -f "$temp_dir/$archive" -C "$PATH_TO_SITE" $ASSETS_DIR web/cpresources
+
+echo "Copying archive..."
+$(dirname $0)/private/storage-copy "$temp_dir/$archive" "$STORAGE_ROOT/$site_name/$archive"
+
+echo "Cleaning up"
+rm -rf "$temp_dir"

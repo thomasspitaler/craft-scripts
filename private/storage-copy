@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+source $(dirname $0)/../.env
+
+copy_cmd=$(dirname $0)/storage-copy-"$STORAGE_TYPE"
+
+$copy_cmd $1 $2

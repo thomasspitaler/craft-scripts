@@ -1,0 +1,7 @@
+#! /usr/bin/env bash
+
+#read coniguration
+source $(dirname $0)/../.env
+
+# dump database to stdout
+mysqldump -h"${DB_SERVER:-localhost}" --port=${DB_PORT:-3306} -u"$DB_USER" -p"$DB_PASSWORD" --databases "$DB_DATABASE" --column-statistics=0
