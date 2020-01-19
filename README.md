@@ -56,7 +56,7 @@ The following scripts are provided:
 
 - `restore`: runs both `restore-database` and `restore-assets`
 
-- set-perms: sets file system permissions (user and group configured via `FS_USER` and `FS_GROUP`)
+- `set-perms`: sets file system permissions (user and group configured via `FS_USER` and `FS_GROUP`)
 
 ## Extending the Scripts
 
