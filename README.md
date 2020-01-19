@@ -4,7 +4,7 @@ Scripts for backing up and restoring the database and assets of Craft cms projec
 
 Currently only [Google Cloud Storage](https://cloud.google.com/storage) is supported for storing backups, but the scripts can easily be extended to use other storage types.
 
-These scripts are not converned with authentication. It is assumed that the machines that these scripts are run on are already authenticated and authorized to access the cloud storage directory used to store backups.
+These scripts are not concerned with authentication. It is assumed that the machines that these scripts are run on are already authenticated and authorized to access the cloud storage directory used to store backups.
 
 ## Installation
 
