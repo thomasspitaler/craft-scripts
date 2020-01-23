@@ -62,6 +62,6 @@ The following scripts are provided:
 
 The scripts can easily be extended by providing your own scripts for additional storage and database types.
 
-If you want to add a database type `xy`, in additional to setting `DB_DRIVER=xy`, scripts `private/database-dump-xy` and `private/database-restore-xy` need to be implemented.
+If you want to add a database type `xy`, in addition to setting `DB_DRIVER=xy`, scripts `private/database-dump-xy` and `private/database-restore-xy` need to be implemented.
 
 Additional storage types, say `xy`, are added by setting `STORAGE_TYPE=xy` as well as implementing scripts `private/storage-list-xy` and `private/storage-copy-xy`.
