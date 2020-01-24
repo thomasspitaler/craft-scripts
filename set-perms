@@ -7,7 +7,7 @@ if [[ "$#" -gt 1 ]]; then
 fi
 
 # check config parameters common to all scripts
-$(dirname $0)/check-config
+$(dirname $0)/private/check-config
 check_config_status=$?
 if [ $check_config_status -ne 0 ]; then
     exit $check_config_status
