@@ -2,9 +2,9 @@
 
 Scripts for backing up and restoring the database and assets of Craft cms projects. There is also provided a script for setting the proper file system permissions.
 
-Currently only [Google Cloud Storage](https://cloud.google.com/storage) is supported for storing backups, but the scripts can easily be extended to use other storage types.
+Currently only the local file system and [Google Cloud Storage](https://cloud.google.com/storage) are supported for storing backups, but the scripts can easily be extended to use other storage types.
 
-These scripts are not concerned with authentication. It is assumed that the machines that these scripts are run on are already authenticated and authorized to access the cloud storage directory used to store backups.
+These scripts are not concerned with authentication. It is assumed that the machines that these scripts are run on are already authenticated and authorized to access the storage used to store backups.
 
 ## Installation
 
@@ -32,7 +32,7 @@ DB_DATABASE="your_app"
 DB_PORT="5432"
 
 # storage for storing backups
-STORAGE_TYPE="gs" # currently only google cloud (gs) is supported
+STORAGE_TYPE="gs" # 'gs' (google cloud storage) or 'fs' (local file system)
 STORAGE_ROOT="gs://your-backups"
 ```
 
