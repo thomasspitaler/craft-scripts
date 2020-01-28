@@ -1,6 +1,6 @@
 # craft-scripts
 
-Scripts for backing up and restoring the database and assets of Craft cms projects. There is also provided a script for setting the proper file system permissions.
+Scripts for backing up and restoring the database and assets of [Craft cms](https://craftcms.com/) projects. There is also provided a script for setting the proper file system permissions.
 
 Currently only the local file system and [Google Cloud Storage](https://cloud.google.com/storage) are supported for storing backups, but the scripts can easily be extended to use other storage types.
 
