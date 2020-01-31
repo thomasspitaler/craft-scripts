@@ -24,7 +24,7 @@ FS_USER="thomas" # file system user for chown/chmod (set-perms script)
 FS_GROUP="staff" # file system group for chown/chmod (set-perms script)
 
 # database credentials
-DB_DRIVER="pgsql" #  currently only pgsql and mysql are supported
+DB_DRIVER="pgsql" #  currently only 'pgsql' (PostgreSQL) and 'mysql' (MySQL) are supported
 DB_SERVER="localhost"
 DB_USER="dev"
 DB_PASSWORD="dev"
