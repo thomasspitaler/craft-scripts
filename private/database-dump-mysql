@@ -3,7 +3,12 @@
 #read coniguration
 source $(dirname $0)/../.env
 
+pwd_arg=""
+
+if [[ ! -z "$DB_PASSWORD" ]]; then
+    pwd_arg='--password='"$DB_PASSWORD"
+fi
+
 # dump database to stdout
-extra_params=""
-# extra_params="--column-statistics=0"
-mysqldump -h"${DB_SERVER:-localhost}" --port=${DB_PORT:-3306} -u"$DB_USER" -p"$DB_PASSWORD" --databases "$extra_params" "$DB_DATABASE"
+mysqldump -h"${DB_SERVER:-localhost}" --port=${DB_PORT:-3306} -u"$DB_USER" $pwd_arg --databases "$DB_DATABASE"
+

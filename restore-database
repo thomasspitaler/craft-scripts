@@ -17,7 +17,7 @@ fi
 source $(dirname $0)/.env
 
 # check required database parameters
-if [[ -z "$DB_DRIVER" || -z "$DB_DATABASE"  || -z "$DB_USER"  || -z "$DB_PASSWORD" ]]; then
+if [[ -z "$DB_DRIVER" || -z "$DB_DATABASE"  || -z "$DB_USER" ]]; then
 	echo "Incomplete database configuration, exiting."
 	echo "The following configuration parameters are required: DB_DRIVER, DB_DATABASE, DB_USER, DB_PASSWORD"
 	exit 2
