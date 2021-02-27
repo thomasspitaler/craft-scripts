@@ -1,9 +1,9 @@
 #! /usr/bin/env bash
 
 # check correct invocation
-if [[ "$#" -gt 1 ]]; then
-	echo "usage: set-perms"
-	exit 1
+if [[ "$#" -gt 0 ]]; then
+    echo "usage: set-perms"
+    exit 1
 fi
 
 # check config parameters common to all scripts
@@ -17,23 +17,29 @@ fi
 source $(dirname $0)/.env
 
 # check required file system parameters
-if [[ -z "$ASSETS_DIR" || -z "$FS_USER"  || -z "$FS_GROUP" ]]; then
-	echo "Missing file system configuration parameters, exiting."
-	echo "The following parameters are required: ASSETS_DIR, FS_USER, FS_GROUP"
-	exit 2
+if [[ -z "$FS_USER"  || -z "$FS_GROUP" ]]; then
+    echo "Missing file system configuration parameters, exiting."
+    echo "The following parameters are required: FS_USER, FS_GROUP"
+    exit 2
 fi
 
-local_writeable_dirs=(
+craft_writable_dirs=(
     "web/cpresources"
     "storage"
-    "$ASSETS_DIR"
 )
+
+if [[ -z "$ASSET_DIRS" ]]; then
+    writeable_dirs=("${craft_writable_dirs[@]}")
+else
+    writeable_dirs=("${craft_writable_dirs[@]}" "${ASSET_DIRS[@]}")
+fi
+
 writeable_dir_perms=775
 writeable_file_perms=664
 
-for dir in ${local_writeable_dirs[@]}
+for dir in ${writeable_dirs[@]}
 do
-    fullpath=${PATH_TO_SITE}/${dir}
+    fullpath=${PROJECT_ROOT}/${dir}
     if [[ -d "${fullpath}" ]] ; then
         echo "Fixing permissions for ${fullpath}"
         chown -R "$FS_USER":"$FS_GROUP" "${fullpath}"

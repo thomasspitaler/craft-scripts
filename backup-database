@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # check correct invocation
-if [[ "$#" -gt 1 ]]; then
+if [[ "$#" -gt 0 ]]; then
 	echo "Usage: backup-database"
 	exit 1
 fi
@@ -30,14 +30,12 @@ if [[ -z "$STORAGE_TYPE" || -z "$STORAGE_ROOT" ]]; then
 	exit 3
 fi
 
-site_name="$(basename "$PATH_TO_SITE")"
-
-echo "Backing up database of craft site $site_name."
+echo "Backing up database of project $PROJECT_NAME."
 
 echo "Creating database dump..."
-timestamp="$(date +%Y%m%d_%H%I%SMEZ)"
+timestamp="$(date +%Y%m%dT%H%I%S)"
 temp_dir="$(mktemp -d)"
-db_dump="${site_name}_$timestamp.sql"
+db_dump="${PROJECT_NAME}_$timestamp.sql"
 
 $(dirname $0)/private/database-dump > "$temp_dir/$db_dump"
 
@@ -46,7 +44,7 @@ archive="${db_dump}.gz"
 gzip -c "$temp_dir/$db_dump" > "${temp_dir}/${archive}"
 
 echo "Copying archive..."
-$(dirname $0)/private/storage-copy "$temp_dir/$archive" "$STORAGE_ROOT/$site_name/$archive"
+$(dirname $0)/private/storage-copy "$temp_dir/$archive" "$STORAGE_ROOT/$archive"
 
 echo "Cleaning up"
 rm -rf "$temp_dir"

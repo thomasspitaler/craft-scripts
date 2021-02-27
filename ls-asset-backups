@@ -1,0 +1,31 @@
+#! /usr/bin/env bash
+
+# check correct invocation
+if [[ "$#" -gt 0 ]]; then
+    echo "usage: ls-asset-backups"
+    exit 1
+fi
+
+# check config parameters common to all scripts
+$(dirname $0)/private/check-config
+check_config_status=$?
+if [ $check_config_status -ne 0 ]; then
+    exit $check_config_status
+fi
+
+# include config
+source $(dirname $0)/.env
+
+# check required storage parameters
+if [[ -z "$STORAGE_TYPE" || -z "$STORAGE_ROOT" ]]; then
+    echo "Missing storage configuration parameters, exiting."
+    echo "The following parameters are required: STORAGE_TYPE, STORAGE_ROOT"
+    exit 3
+fi
+
+echo "Listing asset backups of project $PROJECT_NAME."
+
+list_pattern="${STORAGE_ROOT}/*.tar.gz"
+
+list_cmd=$(dirname $0)/private/storage-list
+"$list_cmd" "$list_pattern"

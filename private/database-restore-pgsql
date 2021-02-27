@@ -4,4 +4,6 @@
 source $(dirname $0)/../.env
 
 # restore the database from stdin
-env PGPASSWORD=$DB_PASSWORD psql -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER $DB_DATABASE
+# env PGPASSWORD=$DB_PASSWORD psql -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER $DB_DATABASE
+
+env PGPASSWORD=$DB_PASSWORD pg_restore -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER --clean -d $DB_DATABASE 2>/dev/null

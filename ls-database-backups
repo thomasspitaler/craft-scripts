@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
 # check correct invocation
-if [[ "$#" -gt 1 ]]; then
-    echo "usage: restore-database [archive-filename]"
+if [[ "$#" -gt 0 ]]; then
+    echo "usage: ls-database-backups"
     exit 1
 fi
 
@@ -30,33 +30,9 @@ if [[ -z "$STORAGE_TYPE" || -z "$STORAGE_ROOT" ]]; then
     exit 3
 fi
 
-echo "Restoring database of project $PROJECT_NAME."
+echo "Listing database backups of project $PROJECT_NAME."
 
-if  [[ -z "$1" ]]; then
-    echo "Looking for most current backup..."
-    list_pattern="${STORAGE_ROOT}/*.sql.gz"
-else
-    echo "Looking for backup $1"
-    list_pattern="$1"
-fi
+list_pattern="${STORAGE_ROOT}/*.sql.gz"
 
 list_cmd=$(dirname $0)/private/storage-list
-archive_url=$("$list_cmd" "$list_pattern" | tail -1)
-
-if [[ -z "$archive_url" ]]; then
-    echo "Database backup(s) not found, exiting."
-    exit 4
-fi
-
-echo "Found $archive_url"
-
-temp_dir="$(mktemp -d)"
-
-echo "Copying database dump..."
-$(dirname $0)/private/storage-copy "$archive_url" "$temp_dir"
-
-echo "Unzipping..."
-gunzip "$temp_dir"/*.sql.gz
-
-echo "Restoring database..."
-$(dirname $0)/private/database-restore < "$temp_dir"/*.sql
+"$list_cmd" "$list_pattern"

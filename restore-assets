@@ -2,8 +2,8 @@
 
 # check correct invocation
 if [[ "$#" -gt 1 ]]; then
-	echo "usage: restore-assets"
-	exit 1
+    echo "usage: restore-assets [archive-filename]"
+    exit 1
 fi
 
 # check config parameters common to all scripts
@@ -18,33 +18,30 @@ source $(dirname $0)/.env
 
 # check required storage parameters
 if [[ -z "$STORAGE_TYPE" || -z "$STORAGE_ROOT" ]]; then
-	echo "Missing storage configuration parameters, exiting."
-	echo "The following parameters are required: STORAGE_TYPE, STORAGE_ROOT"
-	exit 3
+    echo "Missing storage configuration parameters, exiting."
+    echo "The following parameters are required: STORAGE_TYPE, STORAGE_ROOT"
+    exit 3
 fi
 
-site_name="$(basename "$PATH_TO_SITE")"
+echo "Restoring assets of project $PROJECT_NAME."
 
-echo "Restoring assets of craft site $site_name."
-echo "Looking for most current backup..."
+if  [[ -z "$1" ]]; then
+    echo "Looking for most current backup..."
+    list_pattern="${STORAGE_ROOT}/*.tar.gz"
+else
+    echo "Looking for backup $1"
+    list_pattern="$1"
+fi
 
-list_pattern="${STORAGE_ROOT}/$site_name/*.tar.gz"
 list_cmd=$(dirname $0)/private/storage-list
 archive_url=$("$list_cmd" "$list_pattern" | tail -1)
 
 if [[ -z "$archive_url" ]]; then
-	echo "No assets backups found, exiting."
-	exit 4
+    echo "Asset backup(s) not found, exiting."
+    exit 4
 fi
 
 echo "Found $archive_url"
-read -r -p "Proceed? [Y/n] " response
-response_lowercase=$(echo $response | awk '{print tolower($0)}')
-if [[ $response_lowercase =~ ^(no|n)$ ]]
-then
-	echo "exiting"
-	exit 5
-fi
 
 temp_dir="$(mktemp -d)"
 
@@ -52,4 +49,4 @@ echo "Copying assets dump..."
 $(dirname $0)/private/storage-copy "$archive_url" "$temp_dir"
 
 echo "Restoring assets..."
-tar -xz -f "$temp_dir"/*.tar.gz -C "$PATH_TO_SITE"
+tar -xz -f "$temp_dir"/*.tar.gz -C "$PROJECT_ROOT"
