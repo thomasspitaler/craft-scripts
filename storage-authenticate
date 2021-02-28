@@ -1,0 +1,20 @@
+#! /usr/bin/env bash
+
+# check correct invocation
+if [[ "$#" -gt 0 ]]; then
+    echo "Usage: storage-authenticate"
+    exit 1
+fi
+
+# include config
+source $(dirname $0)/.env
+
+# check required storage parameters
+if [[ -z "$STORAGE_TYPE" ]]; then
+    echo "Missing storage configuration parameters, exiting."
+    echo "The following parameters are required: STORAGE_TYPE"
+    exit 3
+fi
+
+storage_authenticate_cmd=$(dirname $0)/private/storage-authenticate-"$STORAGE_TYPE"
+$storage_authenticate_cmd

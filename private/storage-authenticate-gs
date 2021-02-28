@@ -1,0 +1,18 @@
+#! /usr/bin/env bash
+
+#read coniguration
+source $(dirname $0)/../.env
+
+# check required storage parameters
+if [[ -z "$STORAGE_GS_ACCESS_KEY" ]]; then
+    echo "Missing storage configuration parameters, exiting."
+    echo "The following parameters are required: STORAGE_GS_ACCESS_KEY"
+    exit 3
+fi
+
+temp_dir="$(mktemp -d)"
+key_file="$temp_dir/key.json"
+echo "key: ${key_file}"
+echo "$STORAGE_GS_ACCESS_KEY" > "$key_file"
+gcloud auth activate-service-account --key-file="$key_file"
+# rm -rf "$key_file"

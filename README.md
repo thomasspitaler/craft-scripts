@@ -6,7 +6,7 @@ There are also provided scripts for setting the proper file system permissions a
 
 Currently only the local file system and [Google Cloud Storage](https://cloud.google.com/storage) are supported for storing backups, but the scripts can easily be extended to use other storage types.
 
-These scripts are not concerned with authentication. It is assumed that the machines that these scripts are run on are already authenticated and authorized to access the storage used to store backups.
+Some storage types like for example Google Cloud Storage need authentication, and there is also a script to handle that.
 
 ## Installation
 
@@ -43,11 +43,29 @@ DB_PASSWORD=""
 # storage for storing backups
 STORAGE_TYPE="gs"
 STORAGE_ROOT="gs://backups.my-project.com" # 'gs' (google cloud storage) or 'fs' (local file system)
+
+# config specific to storage type "gs"
+# google storage access key (json)
+STORAGE_GS_ACCESS_KEY='{
+  "type": "service_account",
+  "project_id": "your-project-id",
+  "private_key_id": "85fe26393cffbc5dff14588db138f249073cb766",
+  "private_key": "key data",
+  "client_email": "assets-your-project-com@your-project.iam.gserviceaccount.com",
+  "client_id": "123455",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/assets-your-project-com%40your-project.iam.gserviceaccount.com"
+}
+'
 ```
 
 ## Running the Scripts
 
 The following scripts are provided:
+
+- `storage-authenticate`: authentication, needed for some storage types like for example Google Cloud Storage
 
 - `backup-database`: backs up the database
 
@@ -107,3 +125,5 @@ The scripts can easily be extended by providing your own scripts for additional 
 If you want to add a database type `xy`, in addition to setting `DB_DRIVER=xy`, scripts `private/database-dump-xy` and `private/database-restore-xy` need to be implemented.
 
 Additional storage types, say `xy`, are added by setting `STORAGE_TYPE=xy` as well as implementing scripts `private/storage-list-xy` and `private/storage-copy-xy`.
+
+If the storage type needs authentication, `private/storage-authenticate-xy` needs to be implemented.
