@@ -8,7 +8,7 @@ Currently only the local file system and [Google Cloud Storage](https://cloud.go
 
 Some storage types like for example Google Cloud Storage need authentication, and there is also a script to handle that.
 
-These scripts have been created to facilitate Craft cms deployment. For example, they can be used to "hydrate" (provide with data: assets as well as the database) Craft cms instances that were deployed using docker, for example using the setup from the following repository: [thomasspitaler/craft-docker](https://github.com/thomasspitaler/craft-docker)).
+These scripts have been created to facilitate Craft cms deployment. For example, they can be used to "hydrate" (provide with data: assets as well as the database) Craft cms instances that were deployed using docker, for example using the setup from the following repository: [thomasspitaler/craft-docker](https://github.com/thomasspitaler/craft-docker).
 
 ## Installation
 
