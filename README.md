@@ -35,7 +35,7 @@ ASSET_DIRS=(
 )
 
 # database credentials, similar to the ones found in the .env file used by Craft cms
-DB_DRIVER="pgsql" #  currently only 'pgsql' (PostgreSQL) and 'mysql' (MySQL) are supported
+DB_DRIVER="pgsql" #  currently only "pgsql" (PostgreSQL) and "mysql" (MySQL) are supported
 DB_SERVER="localhost"
 DB_PORT=5432
 DB_DATABASE="your_database"
@@ -43,8 +43,10 @@ DB_USER="your-user"
 DB_PASSWORD=""
 
 # storage for storing backups
-STORAGE_TYPE="gs"
-STORAGE_ROOT="gs://backups.my-project.com" # 'gs' (google cloud storage) or 'fs' (local file system)
+STORAGE_TYPE="gs" # "gs" (Google Cloud Storage) or "fs" (local file system)
+STORAGE_ROOT="gs://backups.my-project.com" # backups will be stored at this location
+# use an URL like gs://store.your-project.com/backups for type "gs"
+# use an absolute path like /home/joe/backups for type "fs"
 
 # config specific to storage type "gs"
 # google storage access key (json)
