@@ -1,6 +1,9 @@
 #! /usr/bin/env bash
 
-# include config
-source $(dirname $0)/.env
+# include .env file if it exists
+config_path=$(dirname $0)/.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 rm -rf "$PROJECT_ROOT"/storage/runtime/*

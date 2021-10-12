@@ -1,10 +1,12 @@
 #! /usr/bin/env bash
 
-#read coniguration
-source $(dirname $0)/../.env
+# include .env file if it exists
+config_path=$(dirname $0)/../.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 # restore the database from stdin
 # env PGPASSWORD=$DB_PASSWORD psql -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER $DB_DATABASE
 
-env PGPASSWORD=$DB_PASSWORD pg_restore -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER --clean -d $DB_DATABASE \
---clean --no-owner --no-privileges --no-acl -d $DB_DATABASE
+env PGPASSWORD=$DB_PASSWORD pg_restore -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER --clean -d $DB_DATABASE

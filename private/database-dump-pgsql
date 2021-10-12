@@ -1,12 +1,15 @@
 #! /usr/bin/env bash
 
-#read coniguration
-source $(dirname $0)/../.env
+# include .env file if it exists
+config_path=$(dirname $0)/../.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 # dump database to stdout
 env PGPASSWORD=$DB_PASSWORD pg_dump -h ${DB_SERVER:-localhost} -p ${DB_PORT:-5432} -U $DB_USER \
 --exclude-table-data 'public.assetindexdata' --exclude-table-data 'public.assettransformindex' \
 --exclude-table-data 'public.sessions' --exclude-table-data 'public.templatecaches' \
 --exclude-table-data 'public.templatecachequeries' --exclude-table-data 'public.templatecacheelements' \
---exclude-table-data 'public.cache' --exclude-table-data 'public.templatecachecriteria'
+--exclude-table-data 'public.cache' --exclude-table-data 'public.templatecachecriteria' \
 -F custom $DB_DATABASE

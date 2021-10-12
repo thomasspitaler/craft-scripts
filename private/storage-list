@@ -1,6 +1,10 @@
 #! /usr/bin/env bash
 
-source $(dirname $0)/../.env
+# include .env file if it exists
+config_path=$(dirname $0)/../.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 list_cmd=$(dirname $0)/storage-list-"$STORAGE_TYPE"
 $list_cmd $1

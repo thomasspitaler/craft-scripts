@@ -6,8 +6,11 @@ if [[ "$#" -gt 0 ]]; then
     exit 1
 fi
 
-# include config
-source $(dirname $0)/.env
+# include .env file if it exists
+config_path=$(dirname $0)/.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 # check required storage parameters
 if [[ -z "$STORAGE_TYPE" ]]; then

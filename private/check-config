@@ -1,14 +1,10 @@
 #! /usr/bin/env bash
 
-# check that config file exists
+# include .env file if it exists
 config_path=$(dirname $0)/../.env
-if [[ ! -f "$config_path" ]]; then
-    echo "Could not find configuration file .env, exiting."
-    exit 11
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
 fi
-
-# include config file
-source $(dirname $0)/../.env
 
 # check project name
 if [[ -z "$PROJECT_NAME" ]]; then

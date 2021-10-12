@@ -13,8 +13,11 @@ if [ $check_config_status -ne 0 ]; then
     exit $check_config_status
 fi
 
-# include config
-source $(dirname $0)/.env
+# include .env file if it exists
+config_path=$(dirname $0)/.env
+if [[ -f "$config_path" ]]; then
+    source "$config_path"
+fi
 
 # check required file system parameters
 if [[ -z "$FS_USER"  || -z "$FS_GROUP" ]]; then
