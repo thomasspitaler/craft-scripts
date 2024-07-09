@@ -71,7 +71,7 @@ The following scripts are provided:
 
 - `backup-database`: backs up the database
 
-- `backup-assets`: backs up craft assets directories configured via `ASSET_DIRS`)
+- `backup-assets`: backs up craft assets directories configured via `ASSET_DIRS`
 
 - `ls-database-backups`: lists the available database backups
 
